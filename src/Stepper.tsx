@@ -5,7 +5,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-
+import Formone from './Formone';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -25,10 +25,10 @@ function getSteps() {
   return ['Select master blaster campaign settings', 'Create an ad group', 'Create an ad'];
 }
 
-function getStepContent(stepIndex: number) {
+function getStepContent(stepIndex: number,handleNext: () => void) {
   switch (stepIndex) {
     case 0:
-      return 'Select campaign settings...';
+      return <Formone handleNext={handleNext}/>;
     case 1:
       return 'What is an ad group anyways?';
     case 2:
@@ -72,8 +72,8 @@ export default function MyStepper() {
           </div>
         ) : (
           <div>
-            <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-            <div>
+            <Typography className={classes.instructions}>{getStepContent(activeStep,handleNext)}</Typography>
+            {/*<div>
               <Button
                 disabled={activeStep === 0}
                 onClick={handleBack}
@@ -84,7 +84,7 @@ export default function MyStepper() {
               <Button variant="contained" color="primary" onClick={handleNext}>
                 {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
               </Button>
-            </div>
+            </div>*/}
           </div>
         )}
       </div>
