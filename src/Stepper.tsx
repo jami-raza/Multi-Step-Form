@@ -3,9 +3,11 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Formone from './Formone';
+import Formtwo from './Formtwo';
+import Formthree from './Formthree';
+import Box from '@material-ui/core/Box';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -15,24 +17,28 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(1),
     },
     instructions: {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
+      marginTop: theme.spacing(4),
+      marginBottom: theme.spacing(10),
+      alignContent:'center'
     },
   }),
 );
 
+
+
 function getSteps() {
-  return ['Select master blaster campaign settings', 'Create an ad group', 'Create an ad'];
+  return ['Sign up', 'Apply loan', 'Agreement'];
 }
 
-function getStepContent(stepIndex: number,handleNext: () => void) {
+function getStepContent(stepIndex: number,handleNext: () => void,handleSubmit:()=>void) {
   switch (stepIndex) {
     case 0:
       return <Formone handleNext={handleNext}/>;
     case 1:
-      return 'What is an ad group anyways?';
+      return <Formtwo handleNext={handleNext}/>;
     case 2:
-      return 'This is the bit I really care about!';
+      return <Formthree handleSubmit={handleSubmit}/>;
+    
     default:
       return 'Unknown stepIndex';
   }
@@ -47,14 +53,12 @@ export default function MyStepper() {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
 
-  const handleReset = () => {
-    setActiveStep(0);
+  const handleSubmit = () => {
+    setActiveStep(3);
+    
   };
-
+  
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} alternativeLabel>
@@ -66,25 +70,14 @@ export default function MyStepper() {
       </Stepper>
       <div>
         {activeStep === steps.length ? (
-          <div>
-            <Typography className={classes.instructions}>All steps completed</Typography>
-            <Button onClick={handleReset}>Reset</Button>
-          </div>
+          <Box display="flex" justifyContent="center" p={1} m={1} boxShadow={3} width={300} marginLeft={50} marginRight={50}>
+            <Typography className={classes.instructions}>Thanks! for submitting<div>We will review your application</div></Typography>
+            
+          </Box>
         ) : (
           <div>
-            <Typography className={classes.instructions}>{getStepContent(activeStep,handleNext)}</Typography>
-            {/*<div>
-              <Button
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                className={classes.backButton}
-              >
-                Back
-              </Button>
-              <Button variant="contained" color="primary" onClick={handleNext}>
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
-            </div>*/}
+            <Typography className={classes.instructions}>{getStepContent(activeStep,handleNext,handleSubmit)}</Typography>
+            
           </div>
         )}
       </div>
